@@ -1,24 +1,18 @@
 import { Button, Form, Input, Card } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { loginUser } from "../../service/Appservice";
 import { useNavigate } from "react-router-dom";
 function Login() {
   const onFinish = async (values) => {
-    // const useLogin = {
-    //   usename: values.username,
-    //   password: values.password,
-    //   client_id: "vimc",
-    //   grant_type: "password",
-    //   scope: "openid",
-    // };
     const client_id = "vimc";
     const username = values.username;
     const password = values.password;
     const grant_type = "password";
     const scope = "openid";
     let res = await loginUser(client_id, username, password, grant_type, scope);
-    console.log("Success:", res);
-    // navigate("/home");
+    localStorage.setItem("item", res.access_token);
+    // console.log("Success:", res);
+    navigate("/home");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

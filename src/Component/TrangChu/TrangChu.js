@@ -1,10 +1,40 @@
-import { Layout, Menu } from "antd";
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Layout, Menu, Dropdown, Space, Breadcrumb } from "antd";
+import { DownOutlined, SmileOutline, HomeOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { getUser } from "../../service/Appservice";
+import LichCoQuan from "../LichCoQuan/LichCoQuan";
 const { Header, Content, Sider } = Layout;
 
 function TrangChu() {
   //   const [collapsed, setCollapsed] = useState(false);
+
+  // const navigate = useNavigate();
+
+  const menudrop = (
+    <Menu
+      defaultSelectedKeys={["1"]}
+      mode="inline"
+      style={{ backgroundColor: "transparent" }}
+    >
+      <Menu.Item key="1">
+        <NavLink className="text-black nav-link focus:font-bold" to="/">
+          Logout
+        </NavLink>
+      </Menu.Item>
+    </Menu>
+  );
+
+  const [userInfo, setUserInfo] = useState({});
+  const getInfoUser = async () => {
+    let res = await getUser();
+    // console.log("res;", res);
+    setUserInfo(res);
+  };
+  useEffect(() => {
+    getInfoUser();
+  }, []);
+  // console.log("userInfo: ", userInfo.name_uppercase);
   return (
     <Layout
       style={{
@@ -22,9 +52,22 @@ function TrangChu() {
         <div className="logo" style={{ width: "10%", marginTop: "5px" }}>
           <img src="https://stg.vimc.fafu.com.vn/assets/photos/portal_logo_white.png" />
         </div>
-        <div>
-          <p style={{ color: "white", margin: "0 auto" }}>Username</p>
+        <Dropdown overlay={menudrop}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space style={{ color: "white" }}>
+              {userInfo.name_uppercase}
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+        {/* <div>
+          <p style={{ color: "white", margin: "0 auto" }}>
+            {userInfo.name_uppercase}
+          </p>
         </div>
+        <div>
+          <NavLink to="/">Logout</NavLink>
+        </div> */}
       </Header>
       <Layout>
         <Sider width={200} style={{ backgroundColor: "white" }}>
@@ -78,17 +121,29 @@ function TrangChu() {
         <Layout
           style={{
             padding: "0 24px 24px",
+            backgroundColor: "#e6f7ff",
           }}
         >
+          <Breadcrumb
+            style={{
+              margin: "16px 0",
+            }}
+          >
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
           <Content
             className="site-layout-background"
             style={{
               padding: 24,
               margin: 0,
               minHeight: 280,
+              backgroundColor: "white",
+              borderRadius: "10px",
             }}
           >
-            Content
+            <LichCoQuan />
           </Content>
         </Layout>
       </Layout>
