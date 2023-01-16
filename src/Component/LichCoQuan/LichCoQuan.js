@@ -1,16 +1,35 @@
 import { getLichCoQuan } from "../../service/Appservice";
 import { Table, DatePicker, Button } from "antd";
 import { useState } from "react";
+import moment from "moment";
 const columns = [
   {
     title: "Ngày Tháng",
     dataIndex: "start_at",
-    render: (text) => <span>{text.split("T")[0]}</span>,
+    render: (item, index) => (
+      <>
+        <div>{moment(index.start_at).format("dddd")}</div>
+        <div>{moment(index.start_at).format("DD/MM")}</div>
+      </>
+    ),
   },
   {
     title: "Nội dung công việc",
     dataIndex: "event_notice",
-    render: (text) => <span>{text}</span>,
+    render: (item, index) => (
+      <div>
+        <div>
+          <div>{moment(index.start_at).format("LT")}</div>
+        </div>
+        <div>
+          {index.event_notice
+            .replace("<p>", "")
+            .split("</p>")
+            .join("")
+            .replace("<p>", "")}
+        </div>
+      </div>
+    ),
   },
   {
     title: "Tài Liệu",
