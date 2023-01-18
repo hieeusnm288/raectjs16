@@ -21,4 +21,12 @@ const getLichCoQuan = (from_date, to_date) => {
   );
 };
 
-export { loginUser, getUser, getLichCoQuan };
+const getDetailLich = (code) => {
+  return axiosuser.get(`/api/v1/work-schedules/${code}`);
+};
+
+const getUserDepartments = () => {
+  return axiosuser.get("/api/v1/departments/users");
+};
+
+export { loginUser, getUser, getLichCoQuan, getDetailLich, getUserDepartments };

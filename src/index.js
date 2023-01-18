@@ -5,14 +5,12 @@ import App from "./App";
 import "antd/dist/antd.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-
+import { Provider } from "mobx-react";
+import {} from "./mobxContext/MobxContext";
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+  <Provider>
+    <App />
+  </Provider>,
   document.getElementById("root")
 );
 

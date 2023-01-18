@@ -1,16 +1,14 @@
 import { Layout, Menu, Dropdown, Space, Breadcrumb } from "antd";
-import { DownOutlined, SmileOutline, HomeOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { getUser } from "../../service/Appservice";
-import LichCoQuan from "../LichCoQuan/LichCoQuan";
 const { Header, Content, Sider } = Layout;
 
-function TrangChu() {
+function TrangChu({ children }) {
   //   const [collapsed, setCollapsed] = useState(false);
-
   // const navigate = useNavigate();
-
+  // console.log("param: ", param);
   const menudrop = (
     <Menu
       defaultSelectedKeys={["1"]}
@@ -35,6 +33,7 @@ function TrangChu() {
     getInfoUser();
   }, []);
   // console.log("userInfo: ", userInfo.name_uppercase);
+
   return (
     <Layout
       style={{
@@ -76,7 +75,7 @@ function TrangChu() {
             mode="inline"
             style={{ backgroundColor: "transparent" }}
           >
-            <Menu.Item key="1">
+            <Menu.Item key="/home">
               <NavLink
                 className="text-black nav-link focus:font-bold"
                 to="/home"
@@ -84,10 +83,10 @@ function TrangChu() {
                 Trang chủ
               </NavLink>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="/company-work-schedule">
               <NavLink
                 className="text-black nav-link focus:font-bold"
-                to="/home"
+                to="/company-work-schedule"
               >
                 Lịch cơ quan
               </NavLink>
@@ -143,7 +142,7 @@ function TrangChu() {
               borderRadius: "10px",
             }}
           >
-            <LichCoQuan />
+            {children}
           </Content>
         </Layout>
       </Layout>
