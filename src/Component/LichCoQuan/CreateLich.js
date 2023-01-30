@@ -15,6 +15,8 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import moment from "moment";
 import { ScheduleStore } from "../../mobxStore/ScheduleStore";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const { SHOW_PARENT } = TreeSelect;
 const validateMessages = {
@@ -23,7 +25,6 @@ const validateMessages = {
 function CreateLich() {
   const schedule = ScheduleStore();
   // Tree Select
-  console.log("Phong Ban", schedule?.lstDepartments[0]);
   const [form] = Form.useForm();
   // const phongBan = schedule?.lstDepartments[0]?.map((index) => index.name);
   // console.log("phong ban: ", phongBan);
@@ -40,20 +41,7 @@ function CreateLich() {
     };
   });
   const [value, setValue] = useState(undefined);
-  const onChangeTree = (newValue) => {
-    setValue(newValue);
-  };
-  // const tProps = {
-  //   treeData,
-  //   value,
-  //   onChangeTree,
-  //   treeCheckable: true,
-  //   showCheckedStrategy: SHOW_PARENT,
-  //   placeholder: "- Chọn người nhận thông báo -",
-  //   style: {
-  //     width: "100%",
-  //   },
-  // };
+
   // Upload
   const props = {
     name: "file",
@@ -72,21 +60,75 @@ function CreateLich() {
       }
     },
   };
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [timeStart, setTimeStart] = useState();
+  const [assignees, setAssignees] = useState();
+
   const onFinish = (values) => {
     values.event_notice = form.getFieldValue("data");
     console.log(values);
   };
-  const onChangeDate = (date, dateString) => {
-    console.log(date, dateString);
+
+  const onChangeTree = (newValue) => {
+    setValue(newValue);
+    formik.setFieldValue("assignees", newValue);
   };
-  const onChangeTime = (time, timeString) => {
-    console.log(time, timeString);
+
+  // const onChangeDate = (date, dateString) => {
+  //   setStartDate(dateString);
+  //   // formik.setFieldValue("start_at", dateString);
+  // };
+  const onChangeStart = (start, timeStart) => {
+    // setTimeStartt(start)
+    formik.setFieldValue("start_at", `${start}`);
+    console.log("start", start);
+  };
+
+  const onChangeEnd = (end, timeEnd) => {
+    // console.log('first', timeEnd)
+    formik.setFieldValue("end_at", timeEnd);
   };
   const today = new Date();
 
   const getPhongBan = () => {
     schedule.getUserPhongBan();
   };
+
+  const formik = useFormik({
+    initialValues: {
+      start_at: "",
+      // created_at: "",
+      end_at: "",
+      host: "",
+      location: "",
+      preparation: "",
+      event_notice: "",
+      attenders: "",
+      assignees: [],
+      last_edit_by: "",
+    },
+    validationSchema: Yup.object({
+      // start_at: Yup.string()
+      //     .required("Không được để trống !"),
+      // Password: Yup.string()
+      //     .min(6, "Tối thiểu 6 kí tự")
+      //     .required("Không được trống !"),
+      // Role: Yup.string()
+      //     .required("Không được trống !"),
+      // Address: Yup.string()
+      //     .required("Không được trống !"),
+      // PhoneNumber: Yup.string()
+      //     .matches(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/, {
+      //         message: "Số điện thoại chưa đúng",
+      //         excludeEmptyString: false,
+      //     })
+      //     .required("Không được trống !"),
+    }),
+    onSubmit: (values) => {
+      console.log("first", values);
+    },
+  });
 
   useEffect(() => {
     getPhongBan();
@@ -97,13 +139,13 @@ function CreateLich() {
       <Form
         layout="vertical"
         name="nest-messages"
-        onFinish={onFinish}
+        onFinish={formik.handleSubmit}
         validateMessages={validateMessages}
         form={form}
       >
         <div className="d-flex justify-content-between">
           <Form.Item
-            name="created_at"
+            name="start_at"
             label="Ngày Thực Hiện"
             rules={[
               {
@@ -112,7 +154,7 @@ function CreateLich() {
             ]}
           >
             <DatePicker
-              onChange={onChangeDate}
+              // onChange={onChangeDate}
               defaultValue={moment(today, "DD-MM-YYYY")}
               format="DD-MM-YYYY"
             />
@@ -127,21 +169,20 @@ function CreateLich() {
             ]}
           >
             <TimePicker
-              onChange={onChangeTime}
+              onChange={onChangeStart}
               defaultOpenValue={moment("00:00", "HH:mm")}
               format="HH:mm"
             />
           </Form.Item>
           <Form.Item name="end_at" label="Thời gian kết thúc">
             <TimePicker
-              onChange={onChangeTime}
+              onChange={onChangeEnd}
               defaultOpenValue={moment("00:00", "HH:mm")}
               format="HH:mm"
             />
           </Form.Item>
         </div>
         <Form.Item
-          name="host"
           label="Chủ trì"
           rules={[
             {
@@ -149,10 +190,9 @@ function CreateLich() {
             },
           ]}
         >
-          <Input />
+          <Input name="host" onChange={formik.handleChange} />
         </Form.Item>
         <Form.Item
-          name="location"
           label="Địa điểm"
           rules={[
             {
@@ -160,18 +200,27 @@ function CreateLich() {
             },
           ]}
         >
-          <Input />
+          <Input name="location" onChange={formik.handleChange} />
         </Form.Item>
-        <Form.Item name="event_notice" label="Nội dung dự kiến">
+        <Form.Item label="Nội dung dự kiến">
           <CKEditor
             editor={ClassicEditor}
             data=""
+            name="event_notice"
+            // onReady={editor => {
+            //     // You can store the "editor" and use when it is needed.
+            //     console.log('Editor is ready to use!', editor);
+            // }}
             onChange={(event, editor) => {
-              // console.log(editor);
               const data = editor.getData();
-              console.log(data);
-              form.setFieldsValue(data);
+              formik.setFieldValue("event_notice", data);
             }}
+            // onBlur={(event, editor) => {
+            //     console.log('Blur.', editor);
+            // }}
+            // onFocus={(event, editor) => {
+            //     console.log('Focus.', editor);
+            // }}
           />
         </Form.Item>
         <Form.Item name="file_ids" label="Tài liệu đính kèm">
@@ -181,8 +230,8 @@ function CreateLich() {
             </Upload>
           </div>
         </Form.Item>
-        <Form.Item name="attenders" label="Thành Viên Tham gia">
-          <Input />
+        <Form.Item label="Thành Viên Tham gia">
+          <Input name="attenders" onChange={formik.handleChange} />
         </Form.Item>
         <Form.Item name="assignees" label="Thông báo">
           <TreeSelect

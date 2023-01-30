@@ -1,7 +1,7 @@
 import { getLichCoQuan } from "../../service/Appservice";
 import { Table, DatePicker, Button, Tooltip } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { ScheduleStore } from "../../mobxStore/ScheduleStore";
@@ -20,6 +20,12 @@ function LichCoQuan() {
     navigate(`/company-work-schedule/view/${data.schedule_code}`);
   };
 
+  const stringToHTML = (str) => {
+    var dom = document.createElement("div");
+    dom.innerHTML = str;
+    return dom;
+  };
+
   const columns = [
     {
       title: "Ngày Tháng",
@@ -35,18 +41,19 @@ function LichCoQuan() {
       title: "Nội dung công việc",
       dataIndex: "event_notice",
       render: (item, index) => (
-        <div>
+        <React.Fragment>
           <div>
             <div>{moment(index.start_at).format("LT")}</div>
           </div>
           <div>
-            {index.event_notice
+            {/* {index.event_notice
               .replace("<p>", "")
               .split("</p>")
               .join("")
-              .replace("<p>", "")}
+              .replace("<p>", "")} */}
+            {stringToHTML(index.event_notice).textContent}
           </div>
-        </div>
+        </React.Fragment>
       ),
     },
     {
