@@ -3,6 +3,8 @@ import { DownOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getUser } from "../../service/Appservice";
+import { titlecase } from "stringcase";
+
 const { Header, Content, Sider } = Layout;
 
 function TrangChu({ children }) {
@@ -16,7 +18,7 @@ function TrangChu({ children }) {
       style={{ backgroundColor: "transparent" }}
     >
       <Menu.Item key="1">
-        <NavLink className="text-black nav-link focus:font-bold" to="/">
+        <NavLink className="text-black nav-link focus:font-bold" to="/login">
           Logout
         </NavLink>
       </Menu.Item>
@@ -54,7 +56,7 @@ function TrangChu({ children }) {
         <Dropdown overlay={menudrop}>
           <a onClick={(e) => e.preventDefault()}>
             <Space style={{ color: "white" }}>
-              {userInfo.name_uppercase}
+              {titlecase(userInfo.name_uppercase)}
               <DownOutlined />
             </Space>
           </a>

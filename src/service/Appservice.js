@@ -17,7 +17,7 @@ const getUser = () => {
 
 const getLichCoQuan = (from_date, to_date) => {
   return axiosuser.get(
-    `api/v1/work-schedules?from_date=${from_date}&to_date=${to_date}`
+    `/api/v1/work-schedules?from_date=${from_date}&to_date=${to_date}`
   );
 };
 
@@ -29,4 +29,25 @@ const getUserDepartments = () => {
   return axiosuser.get("/api/v1/departments/users");
 };
 
-export { loginUser, getUser, getLichCoQuan, getDetailLich, getUserDepartments };
+const createLichCoQuan = (data) => {
+  return axiosuser.post("/api/v1/work-schedules", data);
+};
+
+const deleteLichCoQuan = (code) => {
+  return axiosuser.delete(`/api/v1/work-schedules/${code}`);
+};
+
+const updateLichCoQuan = (code, data) => {
+  return axiosuser.put(`/api/v1/work-schedules/${code}`, data);
+};
+// /api/v1/work-schedules/SDL3141347563449173
+export {
+  loginUser,
+  getUser,
+  getLichCoQuan,
+  getDetailLich,
+  getUserDepartments,
+  createLichCoQuan,
+  deleteLichCoQuan,
+  updateLichCoQuan,
+};

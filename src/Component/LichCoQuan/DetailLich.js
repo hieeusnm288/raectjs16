@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { ScheduleStore } from "../../mobxStore/ScheduleStore";
 import moment from "moment";
 import { Button, Modal, Popconfirm, message } from "antd";
@@ -7,23 +7,28 @@ import { Button, Modal, Popconfirm, message } from "antd";
 function DetailLich() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const schedule = ScheduleStore();
+  const navigate = useNavigate();
   // console.log(schedule.chiTietLich[0]);
-  const code = useParams();
+  var { code } = useParams();
   // console.log("code", code.code);
   useEffect(() => {
-    fillDetail(code.code);
+    fillDetail(code);
   }, []);
 
   const fillDetail = (code) => {
     schedule.getDetaiSchedule(code);
   };
 
-  const confirm = (e) => {
-    // console.log(e);
+  const updatePage = () => {
+    navigate(`/company-work-schedule/update/${code}`);
+  };
+
+  const confirm = () => {
+    schedule.deleteLich(code);
     message.success("Xóa Thành Công");
+    navigate("/company-work-schedule");
   };
   const cancel = (e) => {
-    console.log(e);
     // message.error("Click on No");
   };
 
@@ -43,7 +48,7 @@ function DetailLich() {
             <dt className="w-75">Mô tả chi tiết</dt>
           </dl>
           <dl class="d-flex w-100">
-            <dd className="w-25">Ngày thực hiện</dd>
+            <dd className="w-25 float-right">Ngày thực hiện</dd>
             <dd className="w-75">
               {moment(schedule.chiTietLich[0]?.created_at).format("DD/MM/YYYY")}
             </dd>
@@ -150,6 +155,7 @@ function DetailLich() {
                 backgroundColor: "#ffc107",
                 borderRadius: "5px",
               }}
+              onClick={updatePage}
             >
               Sửa
             </button>

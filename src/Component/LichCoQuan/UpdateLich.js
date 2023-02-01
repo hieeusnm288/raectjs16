@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ScheduleStore } from "../../mobxStore/ScheduleStore";
 import {
   Button,
   Form,
@@ -10,25 +13,20 @@ import {
   TreeSelect,
 } from "antd";
 import { UploadOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import moment from "moment";
-import { ScheduleStore } from "../../mobxStore/ScheduleStore";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { titlecase } from "stringcase";
-import { useNavigate } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import moment from "moment";
 
-const { SHOW_PARENT } = TreeSelect;
-const validateMessages = {
-  required: "${label} is required!",
-};
-function CreateLich() {
+function UpdateLich() {
   const navigate = useNavigate();
   const schedule = ScheduleStore();
   // Tree Select
   const [form] = Form.useForm();
+  var { code } = useParams();
 
   const backToList = () => {
     navigate("/company-work-schedule");
@@ -106,21 +104,24 @@ function CreateLich() {
     formik.setFieldValue("end_at", endAt);
   };
   const today = new Date();
-
+  //   schedule.chiTietLich[0]?.start_at = new Date();
+  //   console.log("string to date", today);
   const getPhongBan = () => {
     schedule.getUserPhongBan();
   };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
+      assign_person_update: { new_items: [], remove_items: [] },
       start_at: "",
       // created_at: moment(today).format(),
       updated_at: "",
       title: "",
       end_at: "",
-      host: "",
-      location: "",
-      preparation: "",
+      host: schedule.chiTietLich[0]?.host,
+      location: schedule.chiTietLich[0]?.location,
+      preparation: schedule.chiTietLich[0]?.preparation,
       event_notice: "",
       attenders: "",
       // assignees: [{}],
@@ -133,13 +134,19 @@ function CreateLich() {
     }),
     onSubmit: (values) => {
       // console.log("values Lịch", values);
-      schedule.createLich(values);
+      schedule.updateLich(code, values);
       navigate("/company-work-schedule");
     },
   });
 
+  const getInfoLich = () => {
+    schedule.getDetaiSchedule(code);
+  };
+  //   console.log(schedule.chiTietLich[0]?.host);
+
   useEffect(() => {
     getPhongBan();
+    getInfoLich();
   }, []);
 
   return (
@@ -155,7 +162,7 @@ function CreateLich() {
           layout="vertical"
           name="nest-messages"
           onFinish={formik.handleSubmit}
-          validateMessages={validateMessages}
+          //   validateMessages={validateMessages}
           form={form}
         >
           <div className="d-flex justify-content-between">
@@ -185,7 +192,7 @@ function CreateLich() {
             >
               <TimePicker
                 onChange={onChangeStart}
-                // defaultOpenValue={moment("00:00", "HH:mm")}
+                defaultOpenValue={moment("00:00", "HH:mm")}
                 format="HH:mm"
               />
             </Form.Item>
@@ -205,7 +212,12 @@ function CreateLich() {
               },
             ]}
           >
-            <Input name="host" onChange={formik.handleChange} />
+            <Input
+              name="host"
+              onChange={formik.handleChange}
+              //   defaultValue={schedule.chiTietLich[0]?.host}
+              value={formik.values.host}
+            />
           </Form.Item>
           <Form.Item
             label="Địa điểm"
@@ -215,7 +227,11 @@ function CreateLich() {
               },
             ]}
           >
-            <Input name="location" onChange={formik.handleChange} />
+            <Input
+              name="location"
+              onChange={formik.handleChange}
+              value={formik.values.location}
+            />
           </Form.Item>
           <Form.Item
             label="Chuẩn bị"
@@ -225,12 +241,16 @@ function CreateLich() {
               },
             ]}
           >
-            <Input name="preparation" onChange={formik.handleChange} />
+            <Input
+              name="preparation"
+              onChange={formik.handleChange}
+              value={formik.values.preparation}
+            />
           </Form.Item>
           <Form.Item label="Nội dung dự kiến">
             <CKEditor
               editor={ClassicEditor}
-              data=""
+              data={schedule.chiTietLich[0]?.event_notice}
               name="event_notice"
               // onReady={editor => {
               //     // You can store the "editor" and use when it is needed.
@@ -290,4 +310,4 @@ function CreateLich() {
   );
 }
 
-export default CreateLich;
+export default UpdateLich;

@@ -5,6 +5,7 @@ import Login from "../Component/Login/login";
 import LichCoQuan from "../Component/LichCoQuan/LichCoQuan";
 import CreateLich from "../Component/LichCoQuan/CreateLich";
 import DetailLich from "../Component/LichCoQuan/DetailLich";
+import UpdateLich from "../Component/LichCoQuan/UpdateLich";
 
 const publicRoutes = [
   { path: "/login", component: Login, layout: null },
@@ -19,6 +20,11 @@ const publicRoutes = [
   {
     path: "/company-work-schedule/create",
     component: CreateLich,
+    layout: TrangChu,
+  },
+  {
+    path: "/company-work-schedule/update/:code",
+    component: UpdateLich,
     layout: TrangChu,
   },
   //   { path: '/upload', component: Upload, layout: HeaderOnly },
