@@ -96,7 +96,7 @@ function TrangChu({ children }) {
             <Menu.Item key="3">
               <NavLink
                 className="text-black nav-link focus:font-bold"
-                to="/home"
+                to="/utility/general-notifications"
               >
                 Thông báo chung
               </NavLink>
@@ -125,7 +125,7 @@ function TrangChu({ children }) {
             backgroundColor: "#e6f7ff",
           }}
         >
-          <Breadcrumb
+          {/* <Breadcrumb
             style={{
               margin: "16px 0",
             }}
@@ -133,14 +133,14 @@ function TrangChu({ children }) {
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
             <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <Content
             className="site-layout-background"
             style={{
               padding: 24,
               margin: 0,
               minHeight: 280,
-              backgroundColor: "white",
+              backgroundColor: "#e6f7ff",
               borderRadius: "10px",
             }}
           >

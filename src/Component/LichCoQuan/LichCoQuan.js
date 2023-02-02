@@ -17,6 +17,7 @@ function LichCoQuan() {
   };
 
   const pageDetail = (data) => {
+    console.log("data Lich", data);
     navigate(`/company-work-schedule/view/${data.schedule_code}`);
   };
 
@@ -63,7 +64,7 @@ function LichCoQuan() {
           props: {},
         };
 
-        console.log(start_at_test.has(value.slice(0, 10)), value.slice(0, 10));
+        // console.log(start_at_test.has(value.slice(0, 10)), value.slice(0, 10));
         // console.log(typeof value);
 
         if (start_at_test.has(value.slice(0, 10))) {
@@ -169,7 +170,7 @@ function LichCoQuan() {
     schedule.getSchedule(from_date, to_date);
   };
   return (
-    <>
+    <div>
       <Button
         type="primary"
         style={{ marginBottom: "20px", float: "right", marginLeft: "20px" }}
@@ -188,9 +189,9 @@ function LichCoQuan() {
         dataSource={schedule.lstSchedule[0]}
         pagination={false}
         bordered={true}
-        // style={{ border: "1px solid" }}
+        style={{ backgroundColor: "white" }}
       />
-    </>
+    </div>
   );
 }
 

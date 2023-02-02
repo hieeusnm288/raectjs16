@@ -40,7 +40,19 @@ const deleteLichCoQuan = (code) => {
 const updateLichCoQuan = (code, data) => {
   return axiosuser.put(`/api/v1/work-schedules/${code}`, data);
 };
-// /api/v1/work-schedules/SDL3141347563449173
+
+const getThongBaoChung = (page) => {
+  return axiosuser.get(`/api/v1/news?page=${page}&size=10`);
+};
+
+const getDetailThongBao = (new_id) => {
+  return axiosuser.get(`/api/v1/news/${new_id}`);
+};
+
+const getTaiLieuThongBao = (file_id) => {
+  return axiosuser.get(`/api/v1/upload/attachments/${file_id}`);
+};
+
 export {
   loginUser,
   getUser,
@@ -50,4 +62,7 @@ export {
   createLichCoQuan,
   deleteLichCoQuan,
   updateLichCoQuan,
+  getThongBaoChung,
+  getDetailThongBao,
+  getTaiLieuThongBao,
 };
