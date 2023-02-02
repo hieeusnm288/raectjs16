@@ -5,6 +5,7 @@ import {
   createLichCoQuan,
   deleteLichCoQuan,
   updateLichCoQuan,
+  UploadFile,
 } from "../service/Appservice";
 import { useState } from "react";
 
@@ -48,6 +49,10 @@ export function ScheduleStore() {
       const res = await updateLichCoQuan(code, data);
       // console.log("code update: ", code);
       // console.log("data update: ", data);
+    },
+
+    async uploadFile() {
+      const res = await UploadFile();
     },
   };
 }

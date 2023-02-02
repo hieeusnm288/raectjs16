@@ -61,7 +61,7 @@ function ListThongBao() {
 
   const getFile = (fileId, file_name) => {
     notifications.getFile(fileId);
-    const url_download = `https://stg.vimc.fafu.com.vn/api/v1/upload/attachments/${file_name}`;
+    const url_download = notifications.getFile(fileId);
     const downloadFile = (url) => {
       const fileName = file_name;
       const eTag = document.createElement("a");

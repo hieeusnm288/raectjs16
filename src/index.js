@@ -6,7 +6,7 @@ import "antd/dist/antd.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "mobx-react";
-import {} from "./mobxContext/MobxContext";
+// import {} from "./mobxContext/MobxContext";
 ReactDOM.render(
   <Provider>
     <App />

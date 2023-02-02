@@ -57,7 +57,7 @@ function CreateLich() {
   // Upload
   const props = {
     name: "file",
-    action: "http://localhost:3000/company-work-schedule/create/",
+    action: schedule.uploadFile(),
     headers: {
       authorization: "authorization-text",
     },

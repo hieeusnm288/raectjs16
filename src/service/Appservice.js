@@ -53,6 +53,10 @@ const getTaiLieuThongBao = (file_id) => {
   return axiosuser.get(`/api/v1/upload/attachments/${file_id}`);
 };
 
+const UploadFile = () => {
+  return axiosuser.post("/api/v1/upload");
+};
+
 export {
   loginUser,
   getUser,
@@ -65,4 +69,5 @@ export {
   getThongBaoChung,
   getDetailThongBao,
   getTaiLieuThongBao,
+  UploadFile,
 };
