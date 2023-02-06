@@ -9,7 +9,11 @@ import {
   Upload,
   TreeSelect,
 } from "antd";
-import { UploadOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import {
+  UploadOutlined,
+  LeftCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -57,18 +61,30 @@ function CreateLich() {
   // Upload
   const props = {
     name: "file",
-    action: schedule.uploadFile(),
+    action: "https://stg.vimc.fafu.com.vn/api/v1/upload",
     headers: {
-      authorization: "authorization-text",
+      Authorization: "Bearer " + localStorage.getItem("item"),
     },
     onChange(info) {
+      console.log(
+        "files",
+        info.fileList.map((item) => item.response)
+      );
       if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          // console.log(e.target.result);
+        };
+        reader.readAsText(info.file.originFileObj);
       }
       if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
+        message.success(`${info.file.name} tải lên thành công!`);
+        // formik.setFieldValue(
+        //   "file_id",
+        //   info.fileList.map((item) => item.response.file_id)
+        // );
       } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
+        message.error(`${info.file.name} tải lên thất bại!`);
       }
     },
   };
@@ -143,14 +159,22 @@ function CreateLich() {
   }, []);
 
   return (
-    <>
+    <div style={{ backgroundColor: "white", height: "900px" }}>
       <div className="d-flex">
         <LeftCircleOutlined
-          style={{ fontSize: "25px", color: "#333" }}
+          style={{
+            fontSize: "25px",
+            color: "#333",
+            marginTop: "20px",
+            marginLeft: "20px",
+          }}
           onClick={backToList}
         />
       </div>
-      <div className="container">
+      <div
+        className="container"
+        style={{ margin: "0 auto", width: "60%", marginTop: "20px" }}
+      >
         <Form
           layout="vertical"
           name="nest-messages"
@@ -170,6 +194,7 @@ function CreateLich() {
             >
               <DatePicker
                 onChange={onChangeDate}
+                style={{ width: "250px" }}
                 defaultValue={moment(today, "DD-MM-YYYY")}
                 format="DD-MM-YYYY"
               />
@@ -185,12 +210,14 @@ function CreateLich() {
             >
               <TimePicker
                 onChange={onChangeStart}
+                style={{ width: "250px" }}
                 // defaultOpenValue={moment("00:00", "HH:mm")}
                 format="HH:mm"
               />
             </Form.Item>
             <Form.Item name="end_at" label="Thời gian kết thúc">
               <TimePicker
+                style={{ width: "250px" }}
                 onChange={onChangeEnd}
                 defaultOpenValue={moment(startDate)}
                 format="HH:mm"
@@ -250,10 +277,16 @@ function CreateLich() {
           </Form.Item>
           <Form.Item name="file_ids" label="Tài liệu đính kèm">
             <div className="d-flex">
-              <Upload {...props}>
+              {/* <Upload {...props}>
                 <Button icon={<UploadOutlined />}>
                   Chọn tài liệu đính kèm
                 </Button>
+              </Upload> */}
+              <Upload {...props} accept=".docx, .pdf, .png, .xlsx">
+                <button className="border rounded-md flex items-center px-2 py-1 hover:border-blue-300 ">
+                  <UploadOutlined className="mx-2" />
+                  Tài liệu đính kèm
+                </button>
               </Upload>
             </div>
           </Form.Item>
@@ -286,7 +319,7 @@ function CreateLich() {
           </Form.Item>
         </Form>
       </div>
-    </>
+    </div>
   );
 }
 

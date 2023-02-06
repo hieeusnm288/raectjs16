@@ -1,5 +1,5 @@
 import { Button, Form, Input, Card } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { loginUser } from "../../service/Appservice";
 import { useNavigate } from "react-router-dom";
 function Login() {
@@ -19,6 +19,10 @@ function Login() {
   };
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Đăng nhập";
+  }, []);
 
   return (
     <>

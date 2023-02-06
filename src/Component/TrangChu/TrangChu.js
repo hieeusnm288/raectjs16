@@ -30,9 +30,13 @@ function TrangChu({ children }) {
     let res = await getUser();
     // console.log("res;", res);
     setUserInfo(res);
+    // console.log("res user", res);
+    // localStorage.setItem("name_lowercase", res.name_lowercase);
+    // localStorage.setItem("username", res.username);
   };
   useEffect(() => {
     getInfoUser();
+    document.title = "Trang chủ";
   }, []);
   // console.log("userInfo: ", userInfo.name_uppercase);
 

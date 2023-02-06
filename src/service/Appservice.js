@@ -48,6 +48,9 @@ const getThongBaoChung = (page) => {
 const getDetailThongBao = (new_id) => {
   return axiosuser.get(`/api/v1/news/${new_id}`);
 };
+const deleteThongBao = (new_id) => {
+  return axiosuser.delete(`/api/v1/news/${new_id}`);
+};
 
 const getTaiLieuThongBao = (file_id) => {
   return axiosuser.get(`/api/v1/upload/attachments/${file_id}`);
@@ -55,6 +58,10 @@ const getTaiLieuThongBao = (file_id) => {
 
 const UploadFile = () => {
   return axiosuser.post("/api/v1/upload");
+};
+
+const createThongBao = (data) => {
+  return axiosuser.post("/api/v1/news", data);
 };
 
 export {
@@ -70,4 +77,6 @@ export {
   getDetailThongBao,
   getTaiLieuThongBao,
   UploadFile,
+  createThongBao,
+  deleteThongBao,
 };

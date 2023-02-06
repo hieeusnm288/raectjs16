@@ -13,6 +13,7 @@ function DetailLich() {
   // console.log("code", code.code);
   useEffect(() => {
     fillDetail(code);
+    document.title = "Chi tiết sự kiện";
   }, []);
 
   const fillDetail = (code) => {
@@ -40,8 +41,8 @@ function DetailLich() {
 
   return (
     <>
-      <div>
-        <h2>Chi tiết sự kiện</h2>
+      <div style={{ backgroundColor: "white", height: "950px" }}>
+        <h2 className="pt-5">Chi tiết sự kiện</h2>
         <div className="container mt-5">
           <dl className="d-flex w-100">
             <dt className="w-25">Thông tin</dt>
@@ -84,9 +85,14 @@ function DetailLich() {
           <dl class="d-flex w-100">
             <dd className="w-25">Nội dung sự kiện</dd>
             <dd className="w-75">
-              {stringToHTML(schedule.chiTietLich[0]?.event_notice).textContent}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: schedule.chiTietLich[0]?.event_notice,
+                }}
+              ></div>
             </dd>
           </dl>
+          {/* stringToHTML(schedule.chiTietLich[0]?.event_notice) */}
           <dl class="d-flex w-100">
             <dd className="w-25">Tài liệu đính kèm</dd>
             <dd className="w-75">
@@ -139,8 +145,7 @@ function DetailLich() {
             <dd className="w-75">
               {schedule.chiTietLich[0]?.last_edit_by === null
                 ? "Không có thông tin"
-                : schedule.chiTietLich[0]?.last_edit_by +
-                  " " +
+                : " " +
                   moment(schedule.chiTietLich[0]?.updated_at).format(
                     "DD/MM/YYYY"
                   )}

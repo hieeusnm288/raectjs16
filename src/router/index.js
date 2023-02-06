@@ -8,6 +8,7 @@ import DetailLich from "../Component/LichCoQuan/DetailLich";
 import UpdateLich from "../Component/LichCoQuan/UpdateLich";
 import ListThongBao from "../Component/ThongBao/ListThongBao";
 import DetailThongBao from "../Component/ThongBao/DetailThongBao";
+import CreateThongBao from "../Component/ThongBao/CreateThongBao";
 
 const publicRoutes = [
   { path: "/login", component: Login, layout: null },
@@ -43,9 +44,11 @@ const publicRoutes = [
     component: DetailThongBao,
     layout: TrangChu,
   },
-  //   { path: '/upload', component: Upload, layout: HeaderOnly },
-  //   { path: '/search', component: Search, layout: null },
-  // /utility/general-notifications
+  {
+    path: "/utility/general-notifications/create",
+    component: CreateThongBao,
+    layout: TrangChu,
+  },
 ];
 
 const privateRoutes = [];

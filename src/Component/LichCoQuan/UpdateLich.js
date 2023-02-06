@@ -147,6 +147,7 @@ function UpdateLich() {
   useEffect(() => {
     getPhongBan();
     getInfoLich();
+    document.title = "Chi tiết sự kiện";
   }, []);
 
   return (

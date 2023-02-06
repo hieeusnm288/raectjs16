@@ -17,7 +17,7 @@ function LichCoQuan() {
   };
 
   const pageDetail = (data) => {
-    console.log("data Lich", data);
+    // console.log("data Lich", data);
     navigate(`/company-work-schedule/view/${data.schedule_code}`);
   };
 
@@ -32,6 +32,7 @@ function LichCoQuan() {
   React.useEffect(() => {
     // kinda hacky, cause render 2 times, names has all value, ann table shows incorectly
     start_at_test.clear();
+    document.title = "Lịch cơ quan";
   });
 
   const columns = [
@@ -102,14 +103,19 @@ function LichCoQuan() {
           <div>
             <div>{moment(index.start_at).format("LT")}</div>
           </div>
-          <div>
-            {/* {index.event_notice
+          {/* <div>
+            {index.event_notice
               .replace("<p>", "")
               .split("</p>")
               .join("")
-              .replace("<p>", "")} */}
+              .replace("<p>", "")}
             {stringToHTML(index.event_notice).textContent}
-          </div>
+          </div> */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: index.event_notice,
+            }}
+          ></div>
         </React.Fragment>
       ),
     },

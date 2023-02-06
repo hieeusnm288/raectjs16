@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { NotificationsStore } from "../../mobxStore/NotificationsStore";
-import { Button, Descriptions, PageHeader, Dropdown, Space, Menu } from "antd";
-import { MoreOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Descriptions,
+  PageHeader,
+  Dropdown,
+  Space,
+  Menu,
+  Popconfirm,
+  message,
+} from "antd";
+import { MoreOutlined, EyeOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import "./ListThongBao.scss";
 
 function ListThongBao() {
   const [page, setPage] = useState(0);
@@ -21,6 +31,14 @@ function ListThongBao() {
     // const id = notifications.lstThongBao?.map((data) => data.id);
     navigate(`/utility/general-notifications/view/${idDetail}`);
     // console.log("data detail id: ", id);
+  };
+
+  const confirm = () => {
+    notifications.XoaThongBao(idDetail);
+    message.success("Xóa Thành Công");
+  };
+  const cancel = (e) => {
+    // message.error("Click on No");
   };
 
   const menudrop = (
@@ -48,55 +66,74 @@ function ListThongBao() {
         </a>
       </Menu.Item>
       <Menu.Item key="3">
-        <a
-          className="text-black nav-link focus:font-bold"
-          //   onClick={pageDetailNoti}
-          style={{ border: "none" }}
+        <Popconfirm
+          title="Are you sure to delete this task?"
+          onConfirm={confirm}
+          onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
         >
-          Xóa
-        </a>
+          <a
+            style={{
+              border: "none",
+            }}
+          >
+            Xóa
+          </a>
+        </Popconfirm>
       </Menu.Item>
     </Menu>
   );
 
-  const getFile = (fileId, file_name) => {
-    notifications.getFile(fileId);
-    const url_download = notifications.getFile(fileId);
-    const downloadFile = (url) => {
-      const fileName = file_name;
-      const eTag = document.createElement("a");
-      eTag.href = url;
-      eTag.setAttribute("download", fileName);
-      document.body.appendChild(eTag);
-      eTag.click();
-      eTag.remove();
+  const getFiles = (fileId, file_name) => {
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("item"),
+      },
     };
-    if (fileId) {
-      downloadFile(url_download);
-    }
+    fetch(
+      `https://stg.vimc.fafu.com.vn/api/v1/upload/attachments/${fileId}`,
+      options
+    )
+      .then((res) => {
+        res.blob().then((blob) => {
+          console.log("first", blob);
+          let url = window.URL.createObjectURL(blob);
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = `${file_name}`;
+          a.click();
+        });
+      })
+      .catch(() => alert("Tải không thành công!"));
   };
 
   useEffect(() => {
     notifications.getListThongBao(page);
+    document.title = "Thông báo chung";
   }, []);
+
   //   console.log(notifications.lstThongBao);
   return (
-    <div className="d-flex w-100 flex-wrap">
-      {notifications.lstThongBao?.map((noti, index) => (
-        <div
-          className="site-page-header-ghost-wrapper mx-3 mt-3"
-          style={{ width: "48%" }}
+    <div>
+      <div>
+        <Button
+          key="1"
+          style={{ border: "none", float: "right" }}
+          className="my-3"
+          onClick={() => navigate("/utility/general-notifications/create")}
         >
+          Đăng Thông Báo
+        </Button>
+      </div>
+      <div className="d-flex w-100 flex-wrap mt-5">
+        {notifications.lstThongBao?.map((noti, index) => (
           <PageHeader
             ghost={false}
             title={noti.subject}
+            style={{ margin: "20px 20px 0px 0px", width: "48%" }}
             extra={[
-              //   <Button
-              //     key="1"
-              //     style={{ border: "none", width: "40px", height: "40px" }}
-              //   >
-              //     <MoreOutlined style={{ margin: "0 auto", fontSize: "20px" }} />
-              //   </Button>,
               <Dropdown overlay={menudrop} trigger={["click"]}>
                 <a onClick={(e) => e.preventDefault()}>
                   <Space>
@@ -111,30 +148,51 @@ function ListThongBao() {
           >
             <Descriptions size="small" column={1} style={{ textAlign: "left" }}>
               <Descriptions.Item>
-                {stringToHTML(noti.content).textContent}
+                {/* {stringToHTML(noti.content).textContent} */}
+                <div
+                  style={{ width: "100%" }}
+                  dangerouslySetInnerHTML={{
+                    __html: noti.content,
+                  }}
+                ></div>
               </Descriptions.Item>
               <Descriptions.Item label="Tài liệu đính kèm">
-                {noti.attachments ? (
-                  <a
-                    // href={noti.attachments[0]?.file_name}
-                    onClick={() =>
-                      getFile(
-                        noti.attachments[0]?.file_id,
-                        noti.attachments[0]?.file_name
-                      )
-                    }
-                    style={{ textDecoration: "none" }}
-                  >
-                    {noti.attachments[0]?.file_name}
-                  </a>
-                ) : (
-                  ""
-                )}
+                <p>
+                  {noti.attachments ? (
+                    <>
+                      {noti.attachments.map((file) => {
+                        return (
+                          <div className="mx-2 flex items-center text-blue-600">
+                            {/* <AiOutlineFile /> */}
+                            <a
+                              className="ml-1 mr-3 hover:underline"
+                              title="Tải xuống"
+                              style={{ textDecoration: "none" }}
+                              onClick={() => {
+                                getFiles(file.file_id, file.file_name);
+                              }}
+                            >
+                              {file.file_name}
+                            </a>
+                            <a
+                              className="px-1 rounded text-green-600 hover:bg-slate-100"
+                              title="Xem tài liệu"
+                            >
+                              <EyeOutlined />
+                            </a>
+                          </div>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <i className="mx-2">Không có tài liệu đính kèm</i>
+                  )}
+                </p>
               </Descriptions.Item>
             </Descriptions>
           </PageHeader>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
