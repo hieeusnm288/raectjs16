@@ -110,7 +110,7 @@ function TrangChu({ children }) {
             <Menu.Item key="4">
               <NavLink
                 className="text-black nav-link focus:font-bold"
-                to="/home"
+                to="/utility/contacts"
               >
                 Danh bạ
               </NavLink>

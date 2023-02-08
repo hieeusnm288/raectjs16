@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { ScheduleStore } from "../../mobxStore/ScheduleStore";
 import "./table.css";
 function LichCoQuan() {
-  const [lichCoQuan, setLichCoQuan] = useState([]);
+  // const [lichCoQuan, setLichCoQuan] = useState([]);
   // const data = lichCoQuan;
   const schedule = ScheduleStore();
   const navigate = useNavigate();

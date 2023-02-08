@@ -10,9 +10,11 @@ import {
   Menu,
   Popconfirm,
   message,
+  Modal,
 } from "antd";
 import { MoreOutlined, EyeOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import { FileViewer } from "react-file-viewer";
 import "./ListThongBao.scss";
 
 function ListThongBao() {
@@ -21,12 +23,16 @@ function ListThongBao() {
   const [idDetail, setIdDetail] = useState();
   //   const [fileId, setFileId] = useState();
   const [hasMore, setHasMore] = useState(true);
-
-  const stringToHTML = (str) => {
-    var dom = document.createElement("div");
-    dom.innerHTML = str;
-    return dom;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+    // alert("aaaaaaaaa");
   };
+  // const stringToHTML = (str) => {
+  //   var dom = document.createElement("div");
+  //   dom.innerHTML = str;
+  //   return dom;
+  // };
 
   const navigate = useNavigate();
   const pageDetailNoti = () => {
@@ -44,6 +50,7 @@ function ListThongBao() {
   const confirm = (e) => {
     notifications.XoaThongBao(idDetail);
     message.success("Xóa Thành Công");
+    notifications.getListThongBao(10);
   };
   const cancel = (e) => {
     // message.error("Click on No");
@@ -119,7 +126,7 @@ function ListThongBao() {
 
   useEffect(() => {
     notifications.getListThongBao(size);
-  }, []);
+  }, [size]);
 
   // console.log("list: ", notifications.lstThongBao);
   // console.log(notifications.sizeThongBao);
@@ -203,7 +210,7 @@ function ListThongBao() {
                                 className="px-1 rounded text-green-600 hover:bg-slate-100"
                                 title="Xem tài liệu"
                               >
-                                <EyeOutlined />
+                                <EyeOutlined onClick={showModal} />
                               </a>
                             </div>
                           );
@@ -218,6 +225,11 @@ function ListThongBao() {
             </PageHeader>
           ))}
         </InfiniteScroll>
+        <Modal title="Basic Modal" open={isModalOpen}>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
       </div>
     </div>
   );

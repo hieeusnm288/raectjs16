@@ -41,6 +41,8 @@ const updateLichCoQuan = (code, data) => {
   return axiosuser.put(`/api/v1/work-schedules/${code}`, data);
 };
 
+// Thông báo
+
 const getThongBaoChung = (size) => {
   return axiosuser.get(`/api/v1/news?page=0&size=${size}`);
 };
@@ -68,6 +70,28 @@ const updateThongBao = (data) => {
   return axiosuser.patch(`/api/v1/news`, data);
 };
 
+// Danh bạ
+
+const getNhanVien = (page, keyword, congty) => {
+  return axiosuser.get(
+    `/api/v1/users?page=${page}&size=10&keyword=${keyword}&status=true&sort=departmentCode,desc,HDQT,BDH,BTCNS,BTCKT,BTKTH,BKTKTNB,BVTB,BCB%26DVHH,BTTKH,BPC%26QTRR,BTGTT,VPCQTCT,BCNTT,CDTCT&company_code=${congty}`
+  );
+};
+
+const getListPhongBan = (congty) => {
+  return axiosuser.get(`/api/v1/departments/getAll?company_code=${congty}`);
+};
+
+const getNhanVienByPhongBan = (code, congty) => {
+  return axiosuser.get(
+    `/api/v1/users?page=0&size=10&keyword=&department_code=${code}&status=true&company_code=${congty}`
+  );
+};
+
+const getDSCongTy = () => {
+  return axiosuser.get("/api/v1/companies?status=true");
+};
+
 export {
   loginUser,
   getUser,
@@ -84,4 +108,8 @@ export {
   createThongBao,
   deleteThongBao,
   updateThongBao,
+  getNhanVien,
+  getListPhongBan,
+  getNhanVienByPhongBan,
+  getDSCongTy,
 };
