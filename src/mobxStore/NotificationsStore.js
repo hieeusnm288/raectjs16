@@ -6,22 +6,31 @@ import {
   createThongBao,
   getUser,
   deleteThongBao,
+  updateThongBao,
 } from "../service/Appservice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function NotificationsStore() {
   const [listThongBao, setListThongBao] = useState([]);
   const [detailTB, setDeatilTB] = useState();
   const [fileTB, setFileTB] = useState();
   const [user, setUser] = useState();
+  const [resDelete, setResDelete] = useState();
+  const [sizeTB, setSizeTB] = useState();
+  const navigate = useNavigate();
+  // const [fil]
   return {
     lstThongBao: listThongBao,
     detailThongBao: detailTB,
     filesTB: fileTB,
     userInfo: user,
-    async getListThongBao(page) {
-      const res = await getThongBaoChung(page);
-      //   console.log(res.data);
+    resdel: resDelete,
+    sizeThongBao: sizeTB,
+    async getListThongBao(size) {
+      const res = await getThongBaoChung(size);
+      // console.log(res.total_count);
+      setSizeTB(res.total_count);
       setListThongBao(res.data);
     },
 
@@ -32,7 +41,6 @@ export function NotificationsStore() {
 
     async getFile(file_id) {
       const res = await getTaiLieuThongBao(file_id);
-      console.log(res);
     },
     async uploadFiles() {
       const res = await UploadFile();
@@ -53,6 +61,17 @@ export function NotificationsStore() {
 
     async XoaThongBao(id) {
       const res = await deleteThongBao(id);
+      setResDelete(res);
+      console.log(res);
+      if (res === 200) {
+        navigate("/utility/general-notifications");
+        this.getListThongBao(0);
+      }
+    },
+
+    async SuaThongBao(data) {
+      const res = await updateThongBao(data);
+      // console.log("id: ", id + " data:, ", data);
     },
   };
 }

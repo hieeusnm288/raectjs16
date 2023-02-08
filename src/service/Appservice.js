@@ -41,8 +41,8 @@ const updateLichCoQuan = (code, data) => {
   return axiosuser.put(`/api/v1/work-schedules/${code}`, data);
 };
 
-const getThongBaoChung = (page) => {
-  return axiosuser.get(`/api/v1/news?page=${page}&size=10`);
+const getThongBaoChung = (size) => {
+  return axiosuser.get(`/api/v1/news?page=0&size=${size}`);
 };
 
 const getDetailThongBao = (new_id) => {
@@ -64,6 +64,10 @@ const createThongBao = (data) => {
   return axiosuser.post("/api/v1/news", data);
 };
 
+const updateThongBao = (data) => {
+  return axiosuser.patch(`/api/v1/news`, data);
+};
+
 export {
   loginUser,
   getUser,
@@ -79,4 +83,5 @@ export {
   UploadFile,
   createThongBao,
   deleteThongBao,
+  updateThongBao,
 };

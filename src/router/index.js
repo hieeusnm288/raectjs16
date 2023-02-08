@@ -9,6 +9,7 @@ import UpdateLich from "../Component/LichCoQuan/UpdateLich";
 import ListThongBao from "../Component/ThongBao/ListThongBao";
 import DetailThongBao from "../Component/ThongBao/DetailThongBao";
 import CreateThongBao from "../Component/ThongBao/CreateThongBao";
+import UpdateThongBao from "../Component/ThongBao/UpdateThongBao";
 
 const publicRoutes = [
   { path: "/login", component: Login, layout: null },
@@ -47,6 +48,11 @@ const publicRoutes = [
   {
     path: "/utility/general-notifications/create",
     component: CreateThongBao,
+    layout: TrangChu,
+  },
+  {
+    path: "/utility/general-notifications/update/:id",
+    component: UpdateThongBao,
     layout: TrangChu,
   },
 ];

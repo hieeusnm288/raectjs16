@@ -44,6 +44,7 @@ function TrangChu({ children }) {
     <Layout
       style={{
         minHeight: "100vh",
+        // position: "absolute",
       }}
     >
       <Header
@@ -52,6 +53,7 @@ function TrangChu({ children }) {
           height: "80px",
           display: "flex",
           justifyContent: "space-between",
+          // position: "relative",
         }}
       >
         <div className="logo" style={{ width: "10%", marginTop: "5px" }}>

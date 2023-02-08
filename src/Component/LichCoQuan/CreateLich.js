@@ -37,6 +37,8 @@ function CreateLich() {
   const backToList = () => {
     navigate("/company-work-schedule");
   };
+  const [idFile, setIdFile] = useState();
+
   // const phongBan = schedule?.lstDepartments[0]?.map((index) => index.name);
   // console.log("phong ban: ", phongBan);
   const treeData = schedule?.lstDepartments[0]?.map((item, index) => {
@@ -66,23 +68,17 @@ function CreateLich() {
       Authorization: "Bearer " + localStorage.getItem("item"),
     },
     onChange(info) {
-      console.log(
-        "files",
-        info.fileList.map((item) => item.response)
-      );
       if (info.file.status !== "uploading") {
         let reader = new FileReader();
-        reader.onload = (e) => {
-          // console.log(e.target.result);
-        };
+        reader.onload = (e) => {};
         reader.readAsText(info.file.originFileObj);
       }
       if (info.file.status === "done") {
+        // console.log("check", info.file.response.file_id );
         message.success(`${info.file.name} tải lên thành công!`);
-        // formik.setFieldValue(
-        //   "file_id",
-        //   info.fileList.map((item) => item.response.file_id)
-        // );
+        const listId = info.fileList?.map((item) => item.response.file_id);
+        // const a = listId.map((index) => index.toString());
+        setIdFile(listId);
       } else if (info.file.status === "error") {
         message.error(`${info.file.name} tải lên thất bại!`);
       }
@@ -128,6 +124,7 @@ function CreateLich() {
   };
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       start_at: "",
       // created_at: moment(today).format(),
@@ -141,7 +138,7 @@ function CreateLich() {
       attenders: "",
       // assignees: [{}],
       last_edit_by: null,
-      file_ids: [],
+      file_ids: idFile ? idFile : [],
     },
     validationSchema: Yup.object({
       host: Yup.string().required("Không được để trống"),
