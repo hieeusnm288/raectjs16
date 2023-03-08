@@ -118,7 +118,7 @@ function TrangChu({ children }) {
             <Menu.Item key="5">
               <NavLink
                 className="text-black nav-link focus:font-bold"
-                to="/home"
+                to="/user-account-management"
               >
                 Tài Khoản
               </NavLink>

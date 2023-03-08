@@ -78,6 +78,17 @@ const getNhanVien = (page, keyword, congty) => {
   );
 };
 
+const getNhanVienGiam = (page, keyword, congty) => {
+  return axiosuser.get(
+    `/api/v1/users?page=${page}&size=10&keyword=${keyword}&status=true&sort=departmentCode,asc,HDQT,BDH,BTCNS,BTCKT,BTKTH,BKTKTNB,BVTB,BCB%26DVHH,BTTKH,BPC%26QTRR,BTGTT,VPCQTCT,BCNTT,CDTCT&company_code=${congty}`
+  );
+};
+const getNhanVienByStatus = (page, keyword, congty) => {
+  return axiosuser.get(
+    `/api/v1/users?page=${page}&size=10&keyword=${keyword}&status=false&sort=departmentCode,desc,HDQT,BDH,BTCNS,BTCKT,BTKTH,BKTKTNB,BVTB,BCB%26DVHH,BTTKH,BPC%26QTRR,BTGTT,VPCQTCT,BCNTT,CDTCT&company_code=${congty}`
+  );
+};
+
 const getListPhongBan = (congty) => {
   return axiosuser.get(`/api/v1/departments/getAll?company_code=${congty}`);
 };
@@ -112,4 +123,6 @@ export {
   getListPhongBan,
   getNhanVienByPhongBan,
   getDSCongTy,
+  getNhanVienGiam,
+  getNhanVienByStatus,
 };

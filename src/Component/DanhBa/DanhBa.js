@@ -13,7 +13,7 @@ function DanhBa() {
   }, []);
   const handleChange = (value) => {
     // console.log(`selected ${value}`);
-    setCodeCongTy(value);
+    setCodeCongTy(value); 
   };
   // console.log("code", codeCongTy);
   //   console.log(contact?.listCongTy[0].code);

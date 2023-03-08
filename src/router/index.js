@@ -11,6 +11,7 @@ import DetailThongBao from "../Component/ThongBao/DetailThongBao";
 import CreateThongBao from "../Component/ThongBao/CreateThongBao";
 import UpdateThongBao from "../Component/ThongBao/UpdateThongBao";
 import DanhBa from "../Component/DanhBa/DanhBa";
+import TaiKhoan from "../Component/TaiKhoan/TaiKhoan";
 
 const publicRoutes = [
   { path: "/login", component: Login, layout: null },
@@ -61,6 +62,13 @@ const publicRoutes = [
   {
     path: "/utility/contacts",
     component: DanhBa,
+    layout: TrangChu,
+  },
+
+  //Tài Khoản
+  {
+    path: "/user-account-management",
+    component: TaiKhoan,
     layout: TrangChu,
   },
 ];

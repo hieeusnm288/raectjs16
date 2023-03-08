@@ -2,6 +2,7 @@
   "name": "react-fersher",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hieeusnm288.github.io/raectjs16/",
   "dependencies": {
     "@ant-design/charts": "^1.1.4",
     "@ant-design/icons": "^4.0.2",
@@ -16,6 +17,7 @@
     "bootstrap": "^5.2.3",
     "ckeditor5": "^35.4.0",
     "formik": "^2.2.9",
+    "lodash": "^4.17.21",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "mobx-utils": "^5.5.5",
@@ -39,7 +41,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
