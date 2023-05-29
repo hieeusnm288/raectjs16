@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/raectjs16/static/css/main.2bf3155d.css",
+    "main.js": "/raectjs16/static/js/main.096f219a.js",
+    "static/js/787.986b9638.chunk.js": "/raectjs16/static/js/787.986b9638.chunk.js",
+    "index.html": "/raectjs16/index.html",
+    "main.2bf3155d.css.map": "/raectjs16/static/css/main.2bf3155d.css.map",
+    "main.096f219a.js.map": "/raectjs16/static/js/main.096f219a.js.map",
+    "787.986b9638.chunk.js.map": "/raectjs16/static/js/787.986b9638.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2bf3155d.css",
+    "static/js/main.096f219a.js"
+  ]
+}
